@@ -1,5 +1,5 @@
-// For more information on writing tests, see
-// https://scalameta.org/munit/docs/getting-started.html
+package day1
+
 class Day1Suite extends munit.FunSuite {
   val lines = """1000
                 |2000
