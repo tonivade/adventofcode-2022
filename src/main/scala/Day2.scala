@@ -3,13 +3,14 @@ package day2
 import scala.io.Source
 
 object Day2:
+
   def part1(input: List[String]): Int =
     val game = input.map(_.split(" "))
     // A = X = rock
     // B = Y = paper
     // C = Z = scissors
     // rock defeats scissors
-    // scissors defeats pager
+    // scissors defeats paper
     // paper defeats rock
     val lost = 0
     val draw = 3
@@ -29,5 +30,33 @@ object Day2:
       case Array("C", "Z") => draw + scissors
     }.sum
 
+  def part2(input: List[String]): Int = 
+    val game = input.map(_.split(" "))
+    // A = rock, X = you need to lose
+    // B = paper, Y = you need to draw
+    // C = scissors, Z = you need to win
+    // rock defeats scissors
+    // scissors defeats paper
+    // paper defeats rock
+    val lost = 0
+    val draw = 3
+    val win = 6
+    val rock = 1
+    val paper = 2
+    val scissors = 3
+    game.map {
+      case Array("A", "X") => scissors + lost
+      case Array("A", "Y") => rock + draw
+      case Array("A", "Z") => paper + win
+      case Array("B", "X") => rock + lost
+      case Array("B", "Y") => paper + draw
+      case Array("B", "Z") => scissors + win
+      case Array("C", "X") => paper + lost
+      case Array("C", "Y") => scissors + draw
+      case Array("C", "Z") => rock + win
+    }.sum
+
 @main def main: Unit =
-  println(Day2.part1(Source.fromFile("input/day2.txt").getLines().toList))
+  val input = Source.fromFile("input/day2.txt").getLines().toList
+  println(Day2.part1(input))
+  println(Day2.part2(input))

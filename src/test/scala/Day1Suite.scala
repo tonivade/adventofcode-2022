@@ -1,6 +1,7 @@
 package day1
 
 class Day1Suite extends munit.FunSuite {
+
   val lines = """1000
                 |2000
                 |3000
