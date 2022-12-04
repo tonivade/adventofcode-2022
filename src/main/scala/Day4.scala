@@ -4,13 +4,13 @@ import scala.io.Source
 
 object Day4:
 
-  def toRanges(input: String): Array[(Set[Int], Set[Int])] =
+  def toRanges(input: String): Array[(Range, Range)] =
     input.split("\n").map(_.split(","))
       .map {
         case Array(r1, r2) => (r1.split("-"), r2.split("-"))
       }
       .map {
-        case (Array(a1, a2), Array(b1, b2)) => ((a1.toInt to a2.toInt).toSet, (b1.toInt to b2.toInt).toSet)
+        case (Array(a1, a2), Array(b1, b2)) => ((a1.toInt to a2.toInt), (b1.toInt to b2.toInt))
       }
 
   def part1(input: String): Int =
