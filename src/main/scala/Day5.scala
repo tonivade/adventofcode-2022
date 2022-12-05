@@ -6,7 +6,7 @@ object Day5:
 
   case class Movement(crates: Int, from: Int, to: Int)
 
-  def part1(input: String): String = 
+  def parse(input: String): (Array[Movement], Map[Int, List[String]]) =
     val Array(crates, movements) = input.split("\n\n")
 
     var stacks = crates.split("\n")
@@ -28,7 +28,13 @@ object Day5:
       } 
     }
 
-    val result = actions.foldLeft(state) {
+    (actions, state)
+
+
+  def part1(input: String): String =
+    val (movements, crates) = parse(input)
+
+    val result = movements.foldLeft(crates) {
       case (s, Movement(crates, from, to)) => 
         (1 to crates).foldLeft(s) {
           case (r, _) => 
@@ -46,7 +52,27 @@ object Day5:
       case (r, x) =>
         r + result(x).last
     }
+  
+  def part2(input: String): String = 
+    val (movements, crates) = parse(input)
+    
+    val result = movements.foldLeft(crates) {
+      case (s, Movement(crates, from, to)) => 
+        val source = s(from)
+        val destination = s(to)
+
+        val a = s + (to -> (destination ++ source.takeRight(crates)))
+        val b = a + (from -> source.dropRight(crates))
+
+        b 
+    }
+
+    (1 to result.size).foldLeft("") {
+      case (r, x) =>
+        r + result(x).last
+    }
 
 @main def main: Unit =
   val input = Source.fromFile("input/day5.txt").getLines().mkString("\n")
   println(Day5.part1(input))
+  println(Day5.part2(input))

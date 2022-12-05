@@ -15,4 +15,8 @@ class Day5Suite extends munit.FunSuite {
   test("day 5 part 1") {
     assertEquals(Day5.part1(input), "CMZ")
   }
+
+  test("day 5 part 2") {
+    assertEquals(Day5.part2(input), "MCD")
+  }
 }
