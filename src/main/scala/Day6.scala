@@ -4,14 +4,19 @@ import scala.io.Source
 
 object Day6:
 
-  def part1(input: String): Int =
-    input.zipWithIndex.sliding(4)
+  def detect(input: String, lenth: Int): Int =
+    input.zipWithIndex.sliding(lenth)
       .find {
-        case array => array.map(_._1).distinct.size == 4
+        case array => array.map(_._1).distinct.size == lenth
       }
       .map(_.last._2 + 1)
       .get
 
+  def part1(input: String): Int = detect(input, 4)
+
+  def part2(input: String): Int = detect(input, 14)
+
 @main def main: Unit =
   val input = Source.fromFile("input/day6.txt").getLines().mkString("\n")
   println(Day6.part1(input))
+  println(Day6.part2(input))

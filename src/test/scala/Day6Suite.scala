@@ -10,7 +10,11 @@ class Day6Suite extends munit.FunSuite {
     assertEquals(Day6.part1("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"), 11)
   }
 
-//  test("day 6 part 2") {
-//    assertEquals(Day6.part2(input), "MCD")
-//  }
+  test("day 6 part 2") {
+    assertEquals(Day6.part2("mjqjpqmgbljsphdztnvjfqwrcgsmlb"), 19)
+    assertEquals(Day6.part2("bvwbjplbgvbhsrlpgdmjqwftvncz"), 23)
+    assertEquals(Day6.part2("nppdvjthqldpwncqszvftbrmjlhg"), 23)
+    assertEquals(Day6.part2("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"), 29)
+    assertEquals(Day6.part2("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"), 26)
+  }
 }
