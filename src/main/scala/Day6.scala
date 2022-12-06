@@ -4,10 +4,10 @@ import scala.io.Source
 
 object Day6:
 
-  def detect(input: String, lenth: Int): Int =
-    input.zipWithIndex.sliding(lenth)
+  def detect(input: String, length: Int): Int =
+    input.zipWithIndex.sliding(length)
       .find {
-        case array => array.map(_._1).distinct.size == lenth
+        case array => array.map(_._1).distinct.size == length
       }
       .map(_.last._2 + 1)
       .get
