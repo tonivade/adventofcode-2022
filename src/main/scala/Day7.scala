@@ -34,12 +34,10 @@ object Day7:
         case ((path, state), directory: Directory) => (path, update(state, path, directory))
       }._2
 
-    val directories = calculate(result)
-    result.map {
-      case (name, _) => directories(name)
-    }
-    .filter(_ < 100000)
-    .sum
+    calculate(result)
+      .values
+      .filter(_ < 100000)
+      .sum
 
   def update(state: Map[String, List[Content]], path: List[String], file: File): Map[String, List[Content]] = 
     val name = path.mkString(",")
@@ -57,14 +55,10 @@ object Day7:
     while (!status.isEmpty) {
       val directories = status.filter {
         case (name, content) => content.forall {
-          case File(name, size) => true
           case Directory(name) => result.contains(name)
+          case _ => true
         }
       }.map(_._1)
-
-      if (directories.isEmpty) {
-        throw MatchError("empty")
-      }
 
       directories.foreach { dir =>
         val dirSize = status.remove(dir).get.foldLeft(0) {
