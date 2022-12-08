@@ -20,6 +20,9 @@ object Day8:
       up(position).map(board(_)).forall(_ < board(position)) ||
       down(position).map(board(_)).forall(_ < board(position))
 
+    def score(position: Position): Int =
+      ???
+
     def left(position: Position): List[Position] = 
       ((position.x - 1) to 0 by -1).map(Position(_, position.y)).toList
     def right(position: Position): List[Position] =
@@ -36,8 +39,8 @@ object Day8:
         }.mkString
       }.mkString("\n")
 
-  def part1(input: String): Int =
-    val matrix = Matrix(input.split("\n")
+  def parse(input: String): Matrix =
+    Matrix(input.split("\n")
       .zipWithIndex
       .flatMap {
         case (line, y) => line.zipWithIndex.map {
@@ -46,12 +49,23 @@ object Day8:
       }.foldLeft(Map.empty[Position, Tree]) {
         case (map, (position, tree)) => map + (position -> tree)
       })
-    
+
+  def part1(input: String): Int =
+    val matrix = parse(input)
     matrix.find {
         case (position, _) => matrix.visible(position)
       }
       .size
 
+  def part2(input: String): Int =
+    val matrix = parse(input)
+    val result = matrix.board.map {
+      case (position, _) => (position, matrix.score(position))
+    }.maxBy(_._2)
+    println(result)
+    result._2
+
 @main def main: Unit =
   val input = Source.fromFile("input/day8.txt").getLines().mkString("\n")
   println(Day8.part1(input))
+  println(Day8.part2(input))
