@@ -4,14 +4,13 @@ import scala.io.Source
 
 object Day8:
 
-  opaque type Tree = Int
   case class Position(x: Int, y: Int)
 
-  case class Matrix(board: Map[Position, Tree]):
+  case class Matrix(board: Map[Position, Int]):
     val height: Int = board.keySet.map(_._2).max
     val width: Int = board.keySet.map(_._1).max
 
-    def find(task: ((Position, Tree)) => Boolean): Map[Position, Tree] =
+    def find(task: ((Position, Int)) => Boolean): Map[Position, Int] =
       board.filter(task)
 
     def visible(position: Position): Boolean = 
@@ -21,7 +20,10 @@ object Day8:
       down(position).map(board(_)).forall(_ < board(position))
 
     def score(position: Position): Int =
-      ???
+      scoreStep(position, left(position)) *
+      scoreStep(position, right(position)) *
+      scoreStep(position, up(position)) *
+      scoreStep(position, down(position))
 
     def left(position: Position): List[Position] = 
       ((position.x - 1) to 0 by -1).map(Position(_, position.y)).toList
@@ -31,6 +33,16 @@ object Day8:
       ((position.y - 1) to 0 by -1).map(Position(position.x, _)).toList
     def down(position: Position): List[Position] =
       ((position.y + 1) to height).map(Position(position.x, _)).toList
+
+    def scoreStep(position: Position, list: List[Position]): Int =
+      list.foldLeft((false, 0)) {
+        case ((blocked, count), current) => {
+          if (!blocked)
+            (board(position) <= board(current), count + 1)
+          else
+            (blocked, count)
+        }
+      }._2
     
     def mkString: String =
       (0 to height).map { y =>
@@ -46,7 +58,7 @@ object Day8:
         case (line, y) => line.zipWithIndex.map {
           case (value, x) => (Position(x, y), value.toString().toInt)
         }
-      }.foldLeft(Map.empty[Position, Tree]) {
+      }.foldLeft(Map.empty[Position, Int]) {
         case (map, (position, tree)) => map + (position -> tree)
       })
 
@@ -59,11 +71,9 @@ object Day8:
 
   def part2(input: String): Int =
     val matrix = parse(input)
-    val result = matrix.board.map {
+    matrix.board.map {
       case (position, _) => (position, matrix.score(position))
-    }.maxBy(_._2)
-    println(result)
-    result._2
+    }.maxBy(_._2)._2
 
 @main def main: Unit =
   val input = Source.fromFile("input/day8.txt").getLines().mkString("\n")
