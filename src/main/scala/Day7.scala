@@ -14,11 +14,35 @@ object Day7:
   case object ExitDir extends Node
 
   def part1(input: String): Int = 
+    val result = parse(input)
+
+    calculate(result)
+      .values
+      .filter(_ < 100000)
+      .sum
+
+  def part2(input: String): Int = 
+    val result = parse(input)
+
+    val sizes = calculate(result)
+
+    val unused = 70000000 - sizes("/")
+
+    sizes
+      .map {
+        case (name, size) => (size, unused + size)
+      }
+      .filter {
+        case (size, unused) => unused > 30000000
+      }
+      .minBy(_._1)._1
+
+  def parse(input: String): Map[String, List[Content]] = 
     val chdir = "\\$ cd ([/\\w]+)".r
     val dir = "dir (\\w+)".r
     val file = "(\\d+) ([\\.\\w]+)".r
 
-    val result = input.split("\n")
+    input.split("\n")
       .map {
         case "$ ls" => ListDir
         case "$ cd .." => ExitDir
@@ -33,11 +57,6 @@ object Day7:
         case ((path, state), file: File) => (path, update(state, path, file))
         case ((path, state), directory: Directory) => (path, update(state, path, directory))
       }._2
-
-    calculate(result)
-      .values
-      .filter(_ < 100000)
-      .sum
 
   def update(state: Map[String, List[Content]], path: List[String], file: File): Map[String, List[Content]] = 
     val name = path.mkString(",")
@@ -73,3 +92,4 @@ object Day7:
 @main def main: Unit =
   val input = Source.fromFile("input/day7.txt").getLines().mkString("\n")
   println(Day7.part1(input))
+  println(Day7.part2(input))
