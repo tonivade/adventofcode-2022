@@ -53,6 +53,7 @@ object Day9:
         Rope(newHead, Position(tail.x - 1, tail.y))
       else
         Rope(newHead, Position(tail.x - 1, head.y))
+
     def right: Rope =
       val newHead = Position(head.x + 1, head.y)
       if (newHead == tail)
@@ -67,19 +68,35 @@ object Day9:
   object Rope:
     val start = Rope(Position.zero, Position.zero)
 
-  def move(start: Rope, movements: List[Movement]): List[Rope] =
-    movements.foldLeft(List(start))(move)
+  case class LongRope(positions: List[Position]):
+    val head = positions.head
+    val tail = positions.last
+    def up: LongRope = ???
+    def down: LongRope = ???
+    def left: LongRope = ???
+    def right: LongRope = ???
 
-  def move(state: List[Rope], movement: Movement): List[Rope] =
-    movement match {
-      case Up => state :+ state.last.up
-      case Down => state :+ state.last.down
-      case Left => state :+ state.last.left
-      case Right => state :+ state.last.right
+  object LongRope:
+    val start = LongRope(List.fill(10)(Position.zero))
+
+  def move(start: Rope, movements: List[Movement]): List[Rope] =
+    movements.foldLeft(List(start)) {
+      case (state, Up) => state :+ state.last.up
+      case (state, Down) => state :+ state.last.down
+      case (state, Left) => state :+ state.last.left
+      case (state, Right) => state :+ state.last.right
     }
 
-  def part1(input: String): Int =
-    val movements = input.split("\n")
+  def moveLong(start: LongRope, movements: List[Movement]): List[LongRope] =
+    movements.foldLeft(List(start)) {
+      case (state, Up) => state :+ state.last.up
+      case (state, Down) => state :+ state.last.down
+      case (state, Left) => state :+ state.last.left
+      case (state, Right) => state :+ state.last.right
+    }
+
+  def parse(input: String): List[Movement] =
+    input.split("\n")
       .map(_.split(" "))
       .flatMap {
         case Array("R", i) => List.fill(i.toInt)(Right)
@@ -89,8 +106,14 @@ object Day9:
       }
       .toList
 
+  def part1(input: String): Int =
+    val movements = parse(input) 
     val result = move(Rope.start, movements)
+    result.groupBy(_.tail).size
 
+  def part2(input: String): Int =
+    val movements = parse(input) 
+    val result = moveLong(LongRope.start, movements)
     result.groupBy(_.tail).size
 
 @main def main: Unit =
