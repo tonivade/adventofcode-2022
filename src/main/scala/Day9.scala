@@ -11,6 +11,7 @@ object Day9:
   case object Right extends Movement
 
   case class Position(x: Int, y: Int):
+    def overlap(other: Position): Boolean = this == other
     def close(other: Position): Boolean = Math.abs(this.x - other.x) <= 1 && Math.abs(this.y - other.y) <= 1
     def follow(other: Position): Boolean = Math.abs(this.x - other.x) == 0 || Math.abs(this.y - other.y) == 0
 
@@ -18,12 +19,10 @@ object Day9:
     val zero = Position(0, 0)
 
   case class Rope(head: Position, tail: Position):
-    val overlap: Boolean = head == tail
-    val close: Boolean = head close tail
 
     def up: Rope =
       val newHead = Position(head.x, head.y + 1)
-      if (newHead == tail)
+      if (newHead overlap tail)
         Rope(newHead, tail)
       else if (newHead close tail)
         Rope(newHead, tail)
@@ -34,7 +33,7 @@ object Day9:
 
     def down: Rope =
       val newHead = Position(head.x, head.y - 1)
-      if (newHead == tail)
+      if (newHead overlap tail)
         Rope(newHead, tail)
       else if (newHead close tail)
         Rope(newHead, tail)
@@ -45,7 +44,7 @@ object Day9:
 
     def left: Rope =
       val newHead = Position(head.x - 1, head.y)
-      if (newHead == tail)
+      if (newHead overlap tail)
         Rope(newHead, tail)
       else if (newHead close tail)
         Rope(newHead, tail)
@@ -56,7 +55,7 @@ object Day9:
 
     def right: Rope =
       val newHead = Position(head.x + 1, head.y)
-      if (newHead == tail)
+      if (newHead overlap tail)
         Rope(newHead, tail)
       else if (newHead close tail)
         Rope(newHead, tail)

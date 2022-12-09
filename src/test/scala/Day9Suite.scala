@@ -18,28 +18,28 @@ class Day9Suite extends munit.FunSuite:
   }
 
   test("head tail overlap") {
-    assertEquals(Rope(Position(0, 0), Position(0, 0)).overlap, true)
-    assertEquals(Rope(Position(1, 0), Position(0, 0)).overlap, false)
-    assertEquals(Rope(Position(0, 1), Position(0, 0)).overlap, false)
-    assertEquals(Rope(Position(1, 1), Position(0, 0)).overlap, false)
-    assertEquals(Rope(Position(2, 0), Position(0, 0)).overlap, false)
-    assertEquals(Rope(Position(0, 2), Position(0, 0)).overlap, false)
-    assertEquals(Rope(Position(2, 2), Position(0, 0)).overlap, false)
+    assertEquals(Position(0, 0) overlap Position(0, 0), true)
+    assertEquals(Position(1, 0) overlap Position(0, 0), false)
+    assertEquals(Position(0, 1) overlap Position(0, 0), false)
+    assertEquals(Position(1, 1) overlap Position(0, 0), false)
+    assertEquals(Position(2, 0) overlap Position(0, 0), false)
+    assertEquals(Position(0, 2) overlap Position(0, 0), false)
+    assertEquals(Position(2, 2) overlap Position(0, 0), false)
   }
 
   test("head tail close") {
-    assertEquals(Rope(Position(0, 0), Position(0, 0)).close, true)
-    assertEquals(Rope(Position(1, 0), Position(0, 0)).close, true)
-    assertEquals(Rope(Position(-1, 0), Position(0, 0)).close, true)
-    assertEquals(Rope(Position(0, 1), Position(0, 0)).close, true)
-    assertEquals(Rope(Position(0, -1), Position(0, 0)).close, true)
-    assertEquals(Rope(Position(1, 1), Position(0, 0)).close, true)
+    assertEquals(Position(0, 0) close Position(0, 0), true)
+    assertEquals(Position(1, 0) close Position(0, 0), true)
+    assertEquals(Position(-1, 0) close Position(0, 0), true)
+    assertEquals(Position(0, 1) close Position(0, 0), true)
+    assertEquals(Position(0, -1) close Position(0, 0), true)
+    assertEquals(Position(1, 1) close Position(0, 0), true)
 
-    assertEquals(Rope(Position(2, 0), Position(0, 0)).close, false)
-    assertEquals(Rope(Position(-2, 0), Position(0, 0)).close, false)
-    assertEquals(Rope(Position(0, 2), Position(0, 0)).close, false)
-    assertEquals(Rope(Position(0, -2), Position(0, 0)).close, false)
-    assertEquals(Rope(Position(2, 2), Position(0, 0)).close, false)
+    assertEquals(Position(2, 0) close Position(0, 0), false)
+    assertEquals(Position(-2, 0) close Position(0, 0), false)
+    assertEquals(Position(0, 2) close Position(0, 0), false)
+    assertEquals(Position(0, -2) close Position(0, 0), false)
+    assertEquals(Position(2, 2) close Position(0, 0), false)
   }
 
   test("rope movement overlap") {
