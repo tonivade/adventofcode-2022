@@ -31,12 +31,12 @@ class Day11Suite extends munit.FunSuite:
                 |    If false: throw to monkey 1""".stripMargin
 
   test("day 11 part 1") {
-    assertEquals(Day11.part1(input), 10605)
+    assertEquals(Day11.part1(input), 10605L)
   }
 
-  test("day 11 part 2: 10K rounds") {
-    assertEquals(Day11.run(1)(1)(input), 6 * 4)
-    assertEquals(Day11.run(20)(1)(input), 103 * 99)
-//    assertEquals(Day11.run(1000)(1)(input), 5204 * 5192)
-//    assertEquals(Day11.part2(input), 52166 * 52013)
+  test("day 11 part 2") {
+    assertEquals(Day11.run(1)(1)(input), 6L * 4L)
+    assertEquals(Day11.run(20)(1)(input), 103L * 99L)
+    assertEquals(Day11.run(1000)(1)(input), 5204L * 5192L)
+//    assertEquals(Day11.part2(input), 52166L * 52013L)
   }
