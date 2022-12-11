@@ -16,10 +16,36 @@ object Day9:
       Math.abs(this.x - other.x) <= 1 && Math.abs(this.y - other.y) <= 1
     def follow(other: Position): Boolean = 
       Math.abs(this.x - other.x) == 0 || Math.abs(this.y - other.y) == 0
+    def atTop(other: Position): Boolean = other.y > this.y
+    def atBottom(other: Position): Boolean = other.y < this.y
+    def atLeft(other: Position): Boolean = other.x < this.x
+    def atRight(other: Position): Boolean = other.x > this.x
     def up: Position = Position(this.x, this.y + 1)
     def down: Position = Position(this.x, this.y - 1)
     def left: Position = Position(this.x - 1, this.y)
     def right: Position = Position(this.x + 1, this.y)
+    def moveTo(other: Position): Position =
+      if (other overlap this)
+        this
+      else if (other close this)
+        this
+      else if ((other atLeft this) && (other atBottom this))
+        this.up.right
+      else if ((other atLeft this) && (other atTop this))
+        this.down.right
+      else if ((other atRight this) && (other atBottom this))
+        this.up.left
+      else if ((other atRight this) && (other atTop this))
+        this.down.left
+      else if (other atTop this)
+        this.down
+      else if (other atBottom this)
+        this.up
+      else if (other atLeft this)
+        this.right
+      else
+        this.left
+
 
   object Position:
     val zero = Position(0, 0)
@@ -28,47 +54,19 @@ object Day9:
 
     def up: Rope =
       val newHead = head.up
-      if (newHead overlap tail)
-        Rope(newHead, tail)
-      else if (newHead close tail)
-        Rope(newHead, tail)
-      else if (newHead follow tail)
-        Rope(newHead, tail.up)
-      else
-        Rope(newHead, Position(head.x, tail.y + 1))
+      Rope(newHead, tail moveTo newHead)
 
     def down: Rope =
       val newHead = head.down
-      if (newHead overlap tail)
-        Rope(newHead, tail)
-      else if (newHead close tail)
-        Rope(newHead, tail)
-      else if (newHead follow tail)
-        Rope(newHead, tail.down)
-      else
-        Rope(newHead, Position(head.x, tail.y - 1))
+      Rope(newHead, tail moveTo newHead)
 
     def left: Rope =
       val newHead = head.left
-      if (newHead overlap tail)
-        Rope(newHead, tail)
-      else if (newHead close tail)
-        Rope(newHead, tail)
-      else if (newHead follow tail)
-        Rope(newHead, tail.left)
-      else
-        Rope(newHead, Position(tail.x - 1, head.y))
+      Rope(newHead, tail moveTo newHead)
 
     def right: Rope =
       val newHead = head.right
-      if (newHead overlap tail)
-        Rope(newHead, tail)
-      else if (newHead close tail)
-        Rope(newHead, tail)
-      else if (newHead follow tail)
-        Rope(newHead, tail.right)
-      else
-        Rope(newHead, Position(tail.x + 1, head.y))
+      Rope(newHead, tail moveTo newHead)
 
   object Rope:
     val start = Rope(Position.zero, Position.zero)
@@ -80,53 +78,25 @@ object Day9:
 
     def up: LongRope = LongRope(tail.foldLeft(List(head.up)) {
       case (state, current) => 
-        val next = if (state.last overlap current)
-          current
-        else if (state.last close current)
-          current
-        else if (state.last follow current)
-          current.up
-        else
-          Position(state.last.x, current.y + 1)
+        val next = current moveTo state.last
         state :+ next
     })
 
     def down: LongRope = LongRope(tail.foldLeft(List(head.down)) {
       case (state, current) => 
-        val next = if (state.last overlap current)
-          current
-        else if (state.last close current)
-          current
-        else if (state.last follow current)
-          current.down
-        else
-          Position(state.last.x, current.y - 1)
+        val next = current moveTo state.last
         state :+ next
     })
 
     def left: LongRope = LongRope(tail.foldLeft(List(head.left)) {
       case (state, current) => 
-        val next = if (state.last overlap current)
-          current
-        else if (state.last close current)
-          current
-        else if (state.last follow current)
-          current.left
-        else
-          Position(current.x - 1, state.last.y)
+        val next = current moveTo state.last
         state :+ next
     })
 
     def right: LongRope = LongRope(tail.foldLeft(List(head.right)) {
       case (state, current) => 
-        val next = if (state.last overlap current)
-          current
-        else if (state.last close current)
-          current
-        else if (state.last follow current)
-          current.right
-        else
-          Position(current.x + 1, state.last.y)
+        val next = current moveTo state.last
         state :+ next
     })
 
