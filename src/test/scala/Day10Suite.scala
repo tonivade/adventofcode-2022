@@ -149,10 +149,17 @@ class Day10Suite extends munit.FunSuite:
                 |noop
                 |noop""".stripMargin
 
-  test("day 5 part 1") {
+  val output = """##..##..##..##..##..##..##..##..##..##..
+                 |###...###...###...###...###...###...###.
+                 |####....####....####....####....####....
+                 |#####.....#####.....#####.....#####.....
+                 |######......######......######......####
+                 |#######.......#######.......#######.....""".stripMargin
+
+  test("day 10 part 1") {
     assertEquals(Day10.part1(input), 13140)
   }
 
-  test("day 5 part 2") {
-//    assertEquals(Day10.part2(input), "MCD")
+  test("day 10 part 2") {
+    assertEquals(Day10.part2(input), output)
   }
