@@ -40,14 +40,13 @@ object Day10:
     val draw = result.foldLeft("") {
       (state, current) =>
         val position = (state.size % 40) + 1
-        println(s"current=$current position=$position")
         if (position >= current && position <= current + 2)
           state + "#"
         else
           state + "."
     }
     
-    draw.grouped(40).mkString("\n")
+    draw.grouped(40).take(6).mkString("\n")
 
 @main def main: Unit =
   val input = Source.fromFile("input/day10.txt").getLines().mkString("\n")
