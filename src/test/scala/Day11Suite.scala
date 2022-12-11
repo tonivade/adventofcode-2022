@@ -38,5 +38,5 @@ class Day11Suite extends munit.FunSuite:
     assertEquals(Day11.run(1)(1)(input), 6L * 4L)
     assertEquals(Day11.run(20)(1)(input), 103L * 99L)
     assertEquals(Day11.run(1000)(1)(input), 5204L * 5192L)
-//    assertEquals(Day11.part2(input), 52166L * 52013L)
+    assertEquals(Day11.part2(input), 52166L * 52013L)
   }
