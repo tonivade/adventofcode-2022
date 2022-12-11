@@ -51,7 +51,7 @@ object Day11:
         }
       }.toMap
 
-  def run(rounds: Int)(worry: Int)(input: String): Long =
+  def run(rounds: Int)(worry: Int)(input: String): Int =
     val monkeys = parse(worry)(input)
 
     val result = (0 until rounds).foldLeft(monkeys) {
@@ -63,10 +63,10 @@ object Day11:
 
     result.foreach(println)
 
-    result.values.toList.sortBy(_.times).reverse.take(2).map((_.times)).foldLeft(1L)(_ * _)
+    result.values.toList.sortBy(_.times).reverse.take(2).map((_.times)).foldLeft(1)(_ * _)
 
-  def part1(input: String): Long = run(20)(3)(input)
-  def part2(input: String): Long = run(10000)(1)(input)
+  def part1(input: String): Int = run(20)(3)(input)
+  def part2(input: String): Int = run(10000)(1)(input)
 
 @main def main: Unit =
   val input = Source.fromFile("input/day11.txt").getLines().mkString("\n")
