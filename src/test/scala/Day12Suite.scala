@@ -11,7 +11,7 @@ class Day12Suite extends munit.FunSuite:
                 |abdefghi""".stripMargin
 
   test("Day12 part1") {
-    assertEquals(part1(input), 1)
+    assertEquals(part1(input), 31L)
   }
 
   test("Day12 part2") {
