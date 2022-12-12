@@ -25,7 +25,7 @@ package day${next_day}
 
 import Day${next_day}._
 
-object Day${next_day}Suite extends munit.FunSuite:
+class Day${next_day}Suite extends munit.FunSuite:
 
   val input = """""".stripMargin
 

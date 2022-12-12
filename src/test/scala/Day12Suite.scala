@@ -2,9 +2,13 @@ package day12
 
 import Day12._
 
-object Day12Suite extends munit.FunSuite:
+class Day12Suite extends munit.FunSuite:
 
-  val input = """""".stripMargin
+  val input = """Sabqponm
+                |abcryxxl
+                |accszExk
+                |acctuvwj
+                |abdefghi""".stripMargin
 
   test("Day12 part1") {
     assertEquals(part1(input), 1)
