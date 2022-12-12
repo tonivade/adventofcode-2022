@@ -143,11 +143,10 @@ class Day9Suite extends munit.FunSuite:
   test("right5 up8") {
     val right5 = moveLong(LongRope.start, List.fill(5)(Right)).last
     val up8 = moveLong(right5, List.fill(8)(Up)).last
-    println(up8)
-    assertEquals(right5, 
-      LongRope(Position(5, 0), Position(4, 0), Position(3, 0), Position(2, 0), Position(1, 0), 
+    assertEquals(right5,
+      LongRope(Position(5, 0), Position(4, 0), Position(3, 0), Position(2, 0), Position(1, 0),
                Position(0, 0), Position(0, 0), Position(0, 0), Position(0, 0), Position(0, 0)))
-    assertEquals(up8, 
-      LongRope(Position(5, 8), Position(5, 7), Position(5, 6), Position(5, 5), Position(5, 4), 
+    assertEquals(up8,
+      LongRope(Position(5, 8), Position(5, 7), Position(5, 6), Position(5, 5), Position(5, 4),
                Position(4, 4), Position(3, 3), Position(2, 2), Position(1, 1), Position(0, 0)))
   }
