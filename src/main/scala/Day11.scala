@@ -4,9 +4,9 @@ import scala.io.Source
 
 object Day11:
 
-  case class Monkey(id: Int, times: Int, items: List[Long], op: Long => Long, divisible: Int, onTrue: Int, onFalse: Int, worry: Int):
+  case class Monkey(id: Int, times: Int, items: List[Long], op: Long => Long, divisible: Int, onTrue: Int, onFalse: Int):
     def add(i: List[Long]): Monkey = this.copy(items = items ++ i)
-    def step(monkeys: Map[Int, Monkey], factor: Int): Map[Int, Monkey] =
+    def step(monkeys: Map[Int, Monkey], worry: Int, factor: Int): Map[Int, Monkey] =
       val result = items.map {
         case item =>
           val next = (op(item) / worry) % factor
@@ -20,9 +20,9 @@ object Day11:
       val merge = result.foldLeft(monkeys) {
         case (map, (id, list)) => map + (id -> map(id).add(list))
       }
-      merge + (id -> Monkey(id, times + items.size, List.empty, op, divisible, onTrue, onFalse, worry))
+      merge + (id -> Monkey(id, times + items.size, List.empty, op, divisible, onTrue, onFalse))
 
-  def parse(worryLevel: Int)(input: String): Map[Int, Monkey] =
+  def parse(input: String): Map[Int, Monkey] =
     input.split("\n\n")
       .map {
         _.split("\n") match {
@@ -47,19 +47,19 @@ object Day11:
             val actionFalse = onFalse.split(":")(1).trim() match {
               case actionRegex(a) => a.toInt
             }
-            (id, Monkey(id, 0, items, op, factor, actionTrue, actionFalse, worryLevel))
+            (id, Monkey(id, 0, items, op, factor, actionTrue, actionFalse))
         }
       }.toMap
 
   def run(rounds: Int)(worry: Int)(input: String): Long =
-    val monkeys = parse(worry)(input)
+    val monkeys = parse(input)
 
     val factor = monkeys.values.map(_.divisible).foldLeft(1)(_ * _)
 
     val result = (0 until rounds).foldLeft(monkeys) {
       case (state1, _) =>
         (0 until monkeys.size).foldLeft(state1) {
-          case (state2, i) => state2(i).step(state2, factor)
+          case (state2, i) => state2(i).step(state2, worry, factor)
         }
     }
 
