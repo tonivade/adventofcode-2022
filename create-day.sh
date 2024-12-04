@@ -1,14 +1,18 @@
 #!/bin/bash
 
+# import year and session_id from .env file
 source .env
 
 next_day="${1?required day}"
+
+mkdir -p src/{main,test}/scala
 
 cat << EOF > "src/main/scala/Day${next_day}.scala"
 package day${next_day}
 
 import scala.io.Source
 
+// https://adventofcode.com/${year}/day/${next_day}
 object Day${next_day}:
   def part1(input: String): Int = ???
   def part2(input: String): Int = ???
@@ -39,6 +43,4 @@ class Day${next_day}Suite extends munit.FunSuite:
 
 EOF
 
-curl "https://adventofcode.com/${year}/day/${next_day}/input" \
-  --cookie "session=$session_id" > "input/day${next_day}.txt"
-
+./download-day.sh
